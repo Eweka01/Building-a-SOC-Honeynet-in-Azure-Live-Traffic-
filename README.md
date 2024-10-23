@@ -1,4 +1,4 @@
-# Building a SOC + Honeynet in Azure (Live Traffic)
+# Building a SOC + Honeynet in Azure [Live Traffic]
 ![11](https://github.com/user-attachments/assets/362492f3-61f1-4680-865e-33773223bf96)
 
 
@@ -12,13 +12,52 @@ In this project, I created a small honeynet within Azure, directing log sources 
 - SecurityIncident (Incidents created by Sentinel)
 - AzureNetworkAnalytics_CL (Malicious Flows allowed into our honeynet)
 
+## Technologies, Regulations, and Azure Components Employed:
+
+- Azure Virtual Network (VNet)
+- Azure Network Security Group (NSG)
+- Virtual Machines (2x Windows, 1x Linux)
+- Log Analytics Workspace with Kusto Query Language (KQL) Queries
+- Azure Key Vault for Secure Secrets Management
+- Azure Storage Account for Data Storage
+- Microsoft Sentinel for Security Information and Event Management (SIEM)
+- Microsoft Defender for Cloud to Protect Cloud Resources
+- Windows Remote Desktop for Remote Access
+- Command Line Interface (CLI) for System Management
+- PowerShell for Automation and Configuration Management
+- NIST SP 800-53 Revision 5 for Security Controls
+- NIST SP 800-61 Revision 2 for Incident Handling Guidance
+
+## Methodology
+- Creating the honeynet: Initially, I deployed multiple vulnerable virtual machines in Azure to simulate an insecure environment.
+
+- Monitoring and analysis: Azure was configured to collect log data from various resources into a log analytics workspace. Using Microsoft Sentinel, I constructed attack maps, triggered alerts, and managed incidents based on the gathered information.
+
+- Security metrics assessment: Over a 4-hour period, I monitored the environment while it remained insecure, capturing essential security metrics. This served as a benchmark for comparison post-implementation of remedial actions.
+
+- Incident response and remediation: Following the identification of vulnerabilities and resolution of incidents, I initiated the hardening process by implementing security best practices and adhering to Azure-specific recommendations.
+
+- Post-remediation evaluation: Subsequently, I conducted another 4-hour observation of the environment to reassess security metrics, comparing them against the initial baseline.
+
 ## Architecture Before Hardening / Security Controls
-![2](https://github.com/user-attachments/assets/9bdeff84-a993-403f-8a9e-539b407cc939)
+![1](https://github.com/user-attachments/assets/9849f06f-92cd-4a76-a22b-cfbad746fbf4)
+
+In Azure, I set up a resource group and deployed both a Windows and a Linux virtual machine. To create a vulnerable environment, I disabled the Windows Firewall via Remote Desktop Protocol (RDP) on the Windows VM. I also altered the network security group (NSG) linked to the Windows VM, enabling all inbound traffic by using the wildcard rule *. Similarly, I configured the NSG for the Linux VM to allow unrestricted inbound traffic through the wildcard *.
+
+During the "BEFORE" phase of the project, all resources were deployed with open internet exposure. This intentionally insecure configuration aimed to attract potential cyber attackers for observation of their tactics. Both Virtual Machines had their NSGs and internal firewalls configured to allow unrestricted access from any source. Additionally, other resources, such as storage accounts and databases, were exposed with public endpoints, lacking the added security of Private Endpoints.
 
 
 ## Architecture After Hardening / Security Controls
-![3](https://github.com/user-attachments/assets/e20aafab-be59-4631-847a-ff6dc29f3bef)
 
+To strengthen our architecture, I implemented a comprehensive suite of hardening measures and security controls aimed at improving the security posture of the environment. These efforts included:
+
+- **Network Security Groups (NSGs):** I refined NSGs to allow inbound and outbound traffic only from my designated public IP address, ensuring that only authorized traffic could access the virtual machines.
+
+- **Built-in Firewalls:** I configured firewalls specific to each VM to restrict unauthorized access, creating rules to minimize attack vectors and protect critical resources.
+
+- **Private Endpoints:** I replaced public endpoints with Private Endpoints for Azure resources, such as storage accounts and databases. This change limited access to the virtual network, securing sensitive resources against external threats and unauthorized access.
+
+By comparing pre- and post-implementation security metrics, I was able to demonstrate the effectiveness of these measures in enhancing the Azure environment's overall security posture.
 
 The architecture of the mini honeynet in Azure consists of the following components:
 
