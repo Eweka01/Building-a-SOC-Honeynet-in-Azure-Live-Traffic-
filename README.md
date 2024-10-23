@@ -81,8 +81,8 @@ For the "AFTER" metrics, Network Security Groups were hardened by blocking ALL t
 # Metrics Before Hardening / Security Controls
 The following table shows the metrics we measured in our insecure environment for 4 hours plus:
 
-| Start Time 2024-06-24  9:00:47
-| Stop Time 2024-06-24 13:00:48
+| Start Time 2024-10-23  6:00:47
+| Stop Time 2024-10-23 11:00:55
 
 | Metric                    | Count |
 |---------------------------|-------|
@@ -98,8 +98,8 @@ All map queries actually returned no results due to no instances of malicious ac
 Metrics After Hardening / Security Controls
 The following table shows the metrics we measured in our environment for another 4 hours, but after we have applied security controls:
 
-| Start Time 2024-06-24 13:05:28
-| Stop Time 2024-06-24 17:50:28
+| Start Time 2024-10-23 15:09:28
+| Stop Time 2024-10-23 19:20:20
 
 | Metric                    | Count |
 |---------------------------|-------|
@@ -111,7 +111,7 @@ The following table shows the metrics we measured in our environment for another
 
 ![result](https://github.com/user-attachments/assets/e7e47e8b-5698-41fb-84dd-8e73ad58dcff)
 
-# KQL Queries
+## KQL Queries
 
 | Metric                                  | Query                                                                                                                                                       |
 |-----------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -122,15 +122,6 @@ The following table shows the metrics we measured in our environment for another
 | Security Incident (Sentinel Incidents)  | SecurityIncident <br> \| where TimeGenerated >= ago(8h) <br> \| count                                                                                        |
 | NSG Inbound Malicious Flows Allowed     | AzureNetworkAnalytics_CL <br> \| where FlowType_s == "MaliciousFlow" and AllowedInFlows_d > 0 <br> \| where TimeGenerated >= ago(8h) <br> \| count           |
 
-In conclusion, I established a streamlined honeynet using Microsoft Azure's robust cloud infrastructure. Microsoft Sentinel was employed to trigger alerts and generate incidents based on ingested logs from designated watch lists. Baseline metrics were recorded in the unprotected environment prior to implementing any security controls. Subsequently, a series of security measures were implemented to strengthen the network against potential threats. 
-
-Comparing pre- and post-implementation metrics revealed a significant decrease in security events and incidents, underscoring the effectiveness of the implemented security controls. It's worth noting that had the network resources been actively used by regular users, it could have resulted in a higher volume of security events and alerts within the 4-hour post-implementation timeframe.
-
-
-
-
-
-  
 
 ## Conclusion
 
