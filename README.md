@@ -78,37 +78,59 @@ For the "AFTER" metrics, Network Security Groups were hardened by blocking ALL t
 ![5](https://github.com/user-attachments/assets/9d57503a-206b-478f-983d-dba62baf31a2)<br>
 ![6](https://github.com/user-attachments/assets/f91fe16d-a5b4-428c-8a14-5b0b2194b99d)<br>
 
-## Metrics Before Hardening / Security Controls
+# Metrics Before Hardening / Security Controls
+The following table shows the metrics we measured in our insecure environment for 4 hours plus:
 
-The following table shows the metrics we measured in our insecure environment for 24 hours:
-Start Time 2023-03-15 17:04:29
-Stop Time 2023-03-16 17:04:29
+| Start Time 2024-06-24  9:00:47
+| Stop Time 2024-06-24 13:00:48
 
-| Metric                   | Count
-| ------------------------ | -----
-| SecurityEvent            | 19470
-| Syslog                   | 3028
-| SecurityAlert            | 10
-| SecurityIncident         | 348
-| AzureNetworkAnalytics_CL | 843
+| Metric                    | Count |
+|---------------------------|-------|
+| SecurityEvent             | 1988  |
+| Syslog                    | 11    |
+| SecurityAlert             | 22    |
+| SecurityIncident          | 23    |
+| AzureNetworkAnalytics_CL  | 2190  |
 
-## Attack Maps Before Hardening / Security Controls
+# Attack Maps After Hardening / Security Controls
+All map queries actually returned no results due to no instances of malicious activity for the 4 hour period after hardening.
 
-```All map queries actually returned no results due to no instances of malicious activity for the 24 hour period after hardening.```
+Metrics After Hardening / Security Controls
+The following table shows the metrics we measured in our environment for another 4 hours, but after we have applied security controls:
 
-## Metrics After Hardening / Security Controls
+| Start Time 2024-06-24 13:05:28
+| Stop Time 2024-06-24 17:50:28
 
-The following table shows the metrics we measured in our environment for another 24 hours, but after we have applied security controls:
-Start Time 2024-09-18 15:37
-Stop Time	2024-09-19 15:37
+| Metric                    | Count |
+|---------------------------|-------|
+| SecurityEvent             | 3894  |
+| Syslog                    | 6     |
+| SecurityAlert             | 0     |
+| SecurityIncident          | 0     |
+| AzureNetworkAnalytics_CL  | 0     |
 
-| Metric                   | Count
-| ------------------------ | -----
-| SecurityEvent            | 8778
-| Syslog                   | 25
-| SecurityAlert            | 0
-| SecurityIncident         | 0
-| AzureNetworkAnalytics_CL | 0
+![result](https://github.com/user-attachments/assets/e7e47e8b-5698-41fb-84dd-8e73ad58dcff)
+
+# KQL Queries
+
+| Metric                                  | Query                                                                                                                                                       |
+|-----------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Start/Stop Time                         | range x from 1 to 1 step 1 <br> \| project StartTime = ago(8h), StopTime = now()                                                                            |
+| Security Events (Windows VMs)           | SecurityEvent <br> \| where TimeGenerated >= ago(8h) <br> \| count                                                                                           |
+| Syslog (Linux VMs)                      | Syslog <br> \| where TimeGenerated >= ago(8h) <br> \| count                                                                                                  |
+| SecurityAlert (Microsoft Defender)      | Security Alert <br> \| where DisplayName !startswith "CUSTOM" and DisplayName !startswith "TEST" <br> \| where TimeGenerated >= ago(8h) <br> \| count       |
+| Security Incident (Sentinel Incidents)  | SecurityIncident <br> \| where TimeGenerated >= ago(8h) <br> \| count                                                                                        |
+| NSG Inbound Malicious Flows Allowed     | AzureNetworkAnalytics_CL <br> \| where FlowType_s == "MaliciousFlow" and AllowedInFlows_d > 0 <br> \| where TimeGenerated >= ago(8h) <br> \| count           |
+
+In conclusion, I established a streamlined honeynet using Microsoft Azure's robust cloud infrastructure. Microsoft Sentinel was employed to trigger alerts and generate incidents based on ingested logs from designated watch lists. Baseline metrics were recorded in the unprotected environment prior to implementing any security controls. Subsequently, a series of security measures were implemented to strengthen the network against potential threats. 
+
+Comparing pre- and post-implementation metrics revealed a significant decrease in security events and incidents, underscoring the effectiveness of the implemented security controls. It's worth noting that had the network resources been actively used by regular users, it could have resulted in a higher volume of security events and alerts within the 4-hour post-implementation timeframe.
+
+
+
+
+
+  
 
 ## Conclusion
 
