@@ -40,7 +40,7 @@ In this project, I created a small honeynet within Azure, directing log sources 
 - Post-remediation evaluation: Subsequently, I conducted another 4-hour observation of the environment to reassess security metrics, comparing them against the initial baseline.
 
 ## Architecture Before Hardening / Security Controls
-![1](https://github.com/user-attachments/assets/9849f06f-92cd-4a76-a22b-cfbad746fbf4)
+![bf](https://github.com/user-attachments/assets/6d0c1a77-f61b-41e6-888c-f5ad9197474f)
 
 In Azure, I set up a resource group and deployed both a Windows and a Linux virtual machine. To create a vulnerable environment, I disabled the Windows Firewall via Remote Desktop Protocol (RDP) on the Windows VM. I also altered the network security group (NSG) linked to the Windows VM, enabling all inbound traffic by using the wildcard rule *. Similarly, I configured the NSG for the Linux VM to allow unrestricted inbound traffic through the wildcard *.
 
@@ -48,6 +48,7 @@ During the "BEFORE" phase of the project, all resources were deployed with open 
 
 
 ## Architecture After Hardening / Security Controls
+![af](https://github.com/user-attachments/assets/35adefc3-7d65-419e-8414-2300ad2b5a4e)
 
 To strengthen our architecture, I implemented a comprehensive suite of hardening measures and security controls aimed at improving the security posture of the environment. These efforts included:
 
