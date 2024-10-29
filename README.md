@@ -127,10 +127,13 @@ The following table shows the metrics we measured in our environment for another
 | NSG Inbound Malicious Flows Allowed     | AzureNetworkAnalytics_CL <br> \| where FlowType_s == "MaliciousFlow" and AllowedInFlows_d > 0 <br> \| where TimeGenerated >= ago(8h) <br> \| count           |
 
 
+## Reflection
+This has been both a challenging and rewarding experience creating this lab and how real-world traffic can be analyzed using attack maps as well as KQL data to parse out different metrics. It was a beautiful sight to see everything come together and have the ability to paint a picture of an insecure environment as well as one that is secure and you no longer see the malicious traffic after implementing the various security controls. During the process of leaving the resources vulnerable, I was able to see the differing IP addresses of the bad actors and the user names that they were attempting to access my virtual machines. After the hardening was completed and waiting 24 hours, it was quite a sight to behold when seeing that there were 0 results found that represent any allowed traffic from the bad actors on the public internet.
+
 ## Conclusion
 
 In this project, a mini honeynet was constructed in Microsoft Azure and log sources were integrated into a Log Analytics workspace. Microsoft Sentinel was employed to trigger alerts and create incidents based on the ingested logs. Additionally, metrics were measured in the insecure environment before security controls were applied, and then again after implementing security measures. It is noteworthy that the number of security events and incidents were drastically reduced after the security controls were applied, demonstrating their effectiveness.
 
 It is worth noting that if the resources within the network were heavily utilized by regular users, it is likely that more security events and alerts may have been generated within the 24-hour period following the implementation of the security controls.
 
-Signed by --Osamudiamen Eweka--
+
